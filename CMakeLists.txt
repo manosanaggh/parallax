@@ -10,7 +10,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 option(BUILD_SHARED_LIBS
-       "Build shared libraries (.dll/.so) instead of static ones (.lib/.a)" OFF)
+  "Build shared libraries (.dll/.so) instead of static ones (.lib/.a)" ON)
 option(DISABLE_LOGGING
        "Disable all logging from parallax excluding kv_format.parallax output."
        OFF)
@@ -154,9 +154,9 @@ set(FILEPATH "${DEVICE_PATH}/${CI_JOB_ID}/kv_store.dat")
 
 set(CMAKE_C_FLAGS_DEBUG "-ggdb3 -Og -gz ${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_C_FLAGS_RELEASE
-    "${CMAKE_C_FLAGS_RELEASE} -funit-at-a-time -O2 -finline-functions -DNDEBUG")
+  "${CMAKE_C_FLAGS_RELEASE} -funit-at-a-time -O2 -finline-functions -DNDEBUG -fPIC")
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=gnu++11 -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=gnu++11 -Wall -fPIC")
 
 set(CMAKE_EXE_LINKER_FLAGS
     "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-as-needed -lrt -lm -pthread -lnuma -lutil"
