@@ -336,6 +336,7 @@ void pr_flush_db_superblock(struct db_descriptor *db_desc)
 	while (total_bytes_written < size) {
 		ssize_t bytes_written = pwrite(db_desc->db_volume->vol_fd, db_desc->db_superblock,
 					       size - total_bytes_written, superblock_offt + total_bytes_written);
+    log_info("[pr_flush_db_superblock] bytes_written = %lu", bytes_written);
 		if (bytes_written == -1) {
 			log_fatal("Failed to write region's %s superblock", db_desc->db_superblock->db_name);
 			perror("Reason");
@@ -400,8 +401,10 @@ void pr_read_db_superblock(struct db_descriptor *db_desc)
 void pr_flush_log_tail(struct db_descriptor *db_desc, struct log_descriptor *log_desc)
 {
 	uint64_t offt_in_seg = log_desc->size % SEGMENT_SIZE;
-	if (!offt_in_seg)
+	if (!offt_in_seg){
+    log_info("!offt_in_seg");
 		return;
+  }
 
 	int last_tail = log_desc->curr_tail_id % LOG_TAIL_NUM_BUFS;
 
@@ -418,6 +421,7 @@ void pr_flush_log_tail(struct db_descriptor *db_desc, struct log_descriptor *log
 	while (start_offt < end_offt) {
 		ssize_t bytes_written = pwrite(db_desc->db_volume->vol_fd, &log_desc->tail[last_tail]->buf[start_offt],
 					       end_offt - start_offt, log_desc->tail[last_tail]->dev_offt + start_offt);
+    log_info("[pr_flush_log_tail] bytes_written = %lu", bytes_written);
 
 		if (bytes_written == -1) {
 			log_fatal("Failed to write LOG_CHUNK reason follows");

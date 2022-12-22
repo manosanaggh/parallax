@@ -1,10 +1,10 @@
-if [ $1 -e "-c" ]
+if [ "$1" == "-c" ]
 then
 	rm -rf build
 fi
 mkdir -p build
 cd build
-if [ $1 -e "-c" ]
+if [ "$1" == "-c" ]
 then
 	cmake3 .. -DCMAKE_BUILD_TYPE="Release" .
 fi

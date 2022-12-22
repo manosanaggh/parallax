@@ -13,7 +13,7 @@ option(BUILD_SHARED_LIBS
   "Build shared libraries (.dll/.so) instead of static ones (.lib/.a)" ON)
 option(DISABLE_LOGGING
        "Disable all logging from parallax excluding kv_format.parallax output."
-       OFF)
+       ON)
 # Set a default build type if none was specified
 set(default_build_type "Release")
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")

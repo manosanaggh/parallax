@@ -938,6 +938,7 @@ static const char *insert_error_handling(db_handle *handle, uint32_t key_size, u
 	}
 
 	uint32_t kv_size = key_size + value_size + get_kv_metadata_size();
+  //log_info("kv_size actual = %u", kv_size);
 	if (kv_size > KV_MAX_SIZE) {
 		error_message = "KV size > 4KB buffer overflow!";
 		return error_message;
@@ -951,9 +952,9 @@ struct par_put_metadata insert_key_value(db_handle *handle, void *key, void *val
 {
 	bt_insert_req ins_req = { 0 };
 	char kv_pair[KV_MAX_SIZE];
-
 	error_message = insert_error_handling(handle, key_size, value_size);
 	if (error_message) {
+    log_info(error_message);
 		// construct an invalid par_put_metadata
 		struct par_put_metadata invalid_put_metadata = { .lsn = UINT64_MAX,
 								 .offset_in_log = UINT64_MAX,
@@ -984,7 +985,8 @@ struct par_put_metadata insert_key_value(db_handle *handle, void *key, void *val
 	// cppcheck-suppress uselessAssignmentPtrArg
 	// cppcheck-suppress unreadVariable
 	error_message = btree_insert_key_value(&ins_req);
-	return ins_req.metadata.put_op_metadata;
+  //log_info(error_message);
+  return ins_req.metadata.put_op_metadata;
 }
 
 struct par_put_metadata serialized_insert_key_value(db_handle *handle, const char *serialized_key_value,
